@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emulatore di CPU</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="cpu">
+        <h2>Emulatore di CPU</h2>
+        <div class="registers_parent">
+            <h3>Registri</h3>
+
+            <div class="registers">
+                <div id="registers">
+                    <div class="register" id="r0">R0: 0</div>
+                    <div class="register" id="r1">R1: 0</div>
+                    <div class="register" id="r2">R2: 0</div>
+                    <div class="register" id="r3">R3: 0</div>
+                </div>
+            </div>
+
+            <div class="registers">
+                <div id="registers">
+                    <div class="register" id="r4">R4: 0</div>
+                    <div class="register" id="r5">R5: 0</div>
+                    <div class="register" id="r6">R6: 0</div>
+                    <div class="register" id="r7">R7: 0</div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="ram">
+            <h3>Memoria</h3>
+            <div class="registers">
+                <div class="register" id="m0">M0: 0</div>
+                <div class="register" id="m1">M1: 0</div>
+                <div class="register" id="m2">M2: 0</div>
+                <div class="register" id="m3">M3: 0</div>
+                <div class="register" id="m4">M4: 0</div>
+                <div class="register" id="m5">M5: 0</div>
+                <div class="register" id="m6">M6: 0</div>
+                <div class="register" id="m7">M7: 0</div>
+            </div>
+
+            <div class="registers">
+                <div class="register" id="m8">M8: 0</div>
+                <div class="register" id="m9">M9: 0</div>
+                <div class="register" id="m10">M10: 0</div>
+                <div class="register" id="m11">M11: 0</div>
+                <div class="register" id="m12">M12: 0</div>
+                <div class="register" id="m13">M13: 0</div>
+                <div class="register" id="m14">M14: 0</div>
+                <div class="register" id="m15">M15: 0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="editor">
+        <h3>Editor di testo</h3>
+        <div class="explanation">
+            <ul>
+                <li><b>cp r0 r1</b>: mette v1 (valore o registro) in r0</li>
+                <li><b>add r0 v1</b>: r0 + v1 (valore o registro)</li>
+                <li><b>sub r0 v1</b>: r0 - v1 (valore o registro)</li>
+                <li><b>mul r0 v1</b>: r0 * v1 (valore o registro)</li>
+                <li><b>div r0 v1</b>: r0 / v1 (valore o registro)</li>
+                <li><b>load r0 m0</b>: carica il valore della memoria m0 nel registro r0</li>
+                <li><b>store m0 r0</b>: salva il valore del registro r0 nella memoria m0</li>
+            </ul>
+        </div>
+        <textarea id="code" rows="20" cols="50"></textarea>
+        <button onclick="runCode()">Esegui il codice</button>
+    </div>
+
+    <div class="terminal">
+        <h3>Operazioni svolte</h3>
+        <pre id="output"></pre>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
