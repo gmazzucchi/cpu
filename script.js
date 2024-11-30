@@ -16,7 +16,7 @@ function updateMemory() {
 
 function getValue(v1) {
     if (v1.startsWith('R') || v1.startsWith('r')) {
-        const reg = parseInt(v1.substring(1), 10);
+        const reg = parseInt(v1.slice(1), 10);
         if (reg >= 0 && reg < registers.length) {
             return registers[reg];
         }
@@ -27,15 +27,21 @@ function getValue(v1) {
 }
 
 function getRegisterNumber(r1) {
-    const reg = parseInt(r1.substring(1), 10);
-    if (reg >= 0 && reg < registers.length) {
+    if (!r1.startsWith('R') && !r1.startsWith('r')) {
+        return NaN;
+    }
+    const reg = parseInt(r1.slice(1), 10);
+    if (reg >= 0 && reg < N_REGISTERS) {
         return reg;
     }
     return NaN;
 }
 
 function getMemoryNumber(m1) {
-    const mem = parseInt(m1.substring(1), 10);
+    if (!m1.startsWith('M') && !m1.startsWith('m')) {
+        return NaN;
+    }
+    const mem = parseInt(m1.slice(1), 10);
     if (mem >= 0 && mem < ram.length) {
         return mem;
     }
@@ -45,22 +51,30 @@ function getMemoryNumber(m1) {
 function runCode() {
     const code = document.getElementById('code').value.split('\n');
     let output = '';
-    let lineIndex = 1;
 
-    code.forEach(line => {
+    for (let lineIndex = 0; lineIndex < code.length; lineIndex++) {
+        const line = code[lineIndex];
+        
         const [cmd, ...args] = line.split(' ');
+        if (args.length != 2) {
+            output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nservono esattamente 3 operandi`;
+            document.getElementById('output').textContent = output;
+            return;
+        }
 
-        if (cmd == 'cp' || cmd == 'add' || cmd == 'sub' || cmd == 'mul' || cmd == 'div') {
-            a0 = args[0]
-            a1 = args[1]
-            const r = getRegisterNumber(a0)
-            const v = getValue(a1)
-            if (r == NaN) {
-                output += `Errore alla linea ${lineIndex}\ndurante il comando ${line}:\n il registro ${a0} non esiste`;
+        if (cmd === 'cp' || cmd === 'add' || cmd === 'sub' || cmd === 'mul' || cmd === 'div') {
+            a0 = args[0];
+            a1 = args[1];
+            const r = getRegisterNumber(a0);
+            const v = getValue(a1);
+            if (isNaN(r)) {
+                output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nil registro "${a0}" non esiste`;
+                document.getElementById('output').textContent = output;
                 return;
             }
-            if (v == NaN) {
-                output += `Errore alla linea ${lineIndex}\ndurante il comando ${line}:\n valore ${a1} non valido`;
+            if (isNaN(v)) {
+                output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nvalore "${a1}" non valido`;
+                document.getElementById('output').textContent = output;
                 return;
             }
             switch (cmd) {
@@ -74,37 +88,42 @@ function runCode() {
         } else if (cmd === 'load') {
             const reg = getRegisterNumber(args[0]);
             const address = getMemoryNumber(args[1]);
-            if (reg == NaN) {
-                output += `Errore alla linea ${lineIndex}\ndurante il comando ${line}:\n il registro ${args[0]} non esiste`;
+            if (isNaN(reg)) {
+                output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nil registro "${args[0]}" non esiste`;
+                document.getElementById('output').textContent = output;
                 return;
             }
-            if (address == NaN) {
-                output += `Errore alla linea ${lineIndex}\ndurante il comando ${line}:\n l'indirizzo di memoria ${args[1]} non esiste`;
+            if (isNaN(address)) {
+                output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nl'indirizzo di memoria "${args[1]}" non esiste`;
+                document.getElementById('output').textContent = output;
                 return;
             }
             registers[reg] = ram[address];
         } else if (cmd === 'store') {
             const reg = getRegisterNumber(args[0]);
             const address = getMemoryNumber(args[1]);
-            if (reg == NaN) {
-                output += `Errore alla linea ${lineIndex}\ndurante il comando ${line}:\n il registro ${args[0]} non esiste`;
+            if (isNaN(reg)) {
+                output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nil registro "${args[0]}" non esiste`;
+                document.getElementById('output').textContent = output;
                 return;
             }
-            if (address == NaN) {
-                output += `Errore alla linea ${lineIndex}\ndurante il comando ${line}:\n l'indirizzo di memoria ${args[1]} non esiste`;
+            if (isNaN(address)) {
+                output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nl'indirizzo di memoria "${args[1]}" non esiste`;
+                document.getElementById('output').textContent = output;
                 return;
             }
             ram[address] = registers[reg];
         } else {
             output += `Istruzione sconosciuta: ${cmd}\n`;
+            document.getElementById('output').textContent = output;
             return;
         }
 
-        // output += `Eseguito: ${line}\n`;
+        output += `Eseguito: ${line}\n`;
         updateMemory();
-        document.getElementById('output').textContent = output;
-        lineIndex += 1;
-    });
+    }
+
+    document.getElementById('output').textContent = output;
 }
 
 updateMemory();
