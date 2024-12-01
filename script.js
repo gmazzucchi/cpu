@@ -3,7 +3,7 @@ const RAM_SIZE = 16
 
 let registers = new Array(N_REGISTERS).fill(0);
 let ram = new Array(RAM_SIZE);
-ram = [115, 142, 140, 10, 167, 25, 143, 196, 100, 65, 8, 125, 144, 131, 59]
+ram = [3, 16, 14, 23, 15, 2, 3, 6, 0, 0, 0, 0, 0, 0, 0, 0]
 
 function updateMemory() {
     for (let i = 0; i < registers.length; i++) {
@@ -42,7 +42,7 @@ function getMemoryNumber(m1) {
         return NaN;
     }
     const mem = parseInt(m1.slice(1), 10);
-    if (mem >= 0 && mem < ram.length) {
+    if (mem >= 0 && mem < RAM_SIZE) {
         return mem;
     }
     return NaN;
