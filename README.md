@@ -13,6 +13,9 @@
 | `CP Rn, value`   | Copia il valore in `Rn`.                                      |
 | `LOAD Rn, addr`  | Carica il valore dalla RAM all'indirizzo `addr` in `Rn`.      |
 | `STORE Rn, addr` | Salva il valore di `Rn` nella RAM all'indirizzo `addr`.       |
+| `MAX Rn, Rm`  | Calcola il massimo tra `Rn` e `Rm` e salva il risultato in `Rn`.      |
+| `MIN Rn, Rm` | Calcola il minimo tra `Rn` e `Rm` e salva il risultato in `Rn`.       |
+
 
 ---
 

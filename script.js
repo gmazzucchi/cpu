@@ -55,14 +55,15 @@ function runCode() {
     for (let lineIndex = 0; lineIndex < code.length; lineIndex++) {
         const line = code[lineIndex];
         
-        const [cmd, ...args] = line.split(' ');
+        let [cmd, ...args] = line.split(' ');
+        cmd = cmd.toLowerCase();
         if (args.length != 2) {
             output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nservono esattamente 3 operandi`;
             document.getElementById('output').textContent = output;
             return;
         }
 
-        if (cmd === 'cp' || cmd === 'add' || cmd === 'sub' || cmd === 'mul' || cmd === 'div') {
+        if (cmd === 'cp' || cmd === 'add' || cmd === 'sub' || cmd === 'mul' || cmd === 'div' || cmd == 'max' || cmd == 'min') {
             a0 = args[0];
             a1 = args[1];
             const r = getRegisterNumber(a0);
@@ -83,6 +84,8 @@ function runCode() {
                 case 'sub': registers[r] -= v; break;
                 case 'mul': registers[r] *= v; break;
                 case 'div': registers[r] /= v; break;
+                case 'max': registers[r] = Math.max(registers[r], v); break;
+                case 'min': registers[r] = Math.min(registers[r], v); break;
                 default: break;
             }
         } else if (cmd === 'load') {
