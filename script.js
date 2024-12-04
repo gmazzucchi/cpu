@@ -81,9 +81,9 @@ function runCode() {
             switch (cmd) {
                 case 'cp':  registers[r] =  v; break;
                 case 'add': registers[r] += v; break;
-                case 'sub': registers[r] -= v; break;
+                case 'sub': registers[r] -= Math.max(v, 0); break;
                 case 'mul': registers[r] *= v; break;
-                case 'div': registers[r] /= v; break;
+                case 'div': registers[r] /= Math.floor(v); break;
                 case 'max': registers[r] = Math.max(registers[r], v); break;
                 case 'min': registers[r] = Math.min(registers[r], v); break;
                 default: break;
