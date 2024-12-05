@@ -58,7 +58,8 @@ function runCode() {
             continue;
         }
         
-        let [cmd, ...args] = line.str.split(';')[0].trim().split(/\s+/);
+        
+        let [cmd, ...args] = line.split(';')[0].trim().split(/\s+/);
         cmd = cmd.toLowerCase();
         if (args.length != 2) {
             output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nservono esattamente 3 operandi`;
