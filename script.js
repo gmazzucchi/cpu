@@ -49,13 +49,16 @@ function getMemoryNumber(m1) {
 }
 
 function runCode() {
-    const code = document.getElementById('code').value.split('\n');
+    const code = document.getElementById('code').value.trim().split('\n');
     let output = '';
 
     for (let lineIndex = 0; lineIndex < code.length; lineIndex++) {
-        const line = code[lineIndex];
+        const line = code[lineIndex].trim();
+        if (line[0] == ';') {
+            continue;
+        }
         
-        let [cmd, ...args] = line.split(' ');
+        let [cmd, ...args] = line.str.split(';')[0].trim().split(/\s+/);
         cmd = cmd.toLowerCase();
         if (args.length != 2) {
             output += `\nErrore alla linea ${lineIndex + 1} durante il comando "${line}":\nservono esattamente 3 operandi`;
@@ -79,7 +82,7 @@ function runCode() {
                 return;
             }
             switch (cmd) {
-                case 'cp':  registers[r] = Max.max(Max.floor(v), 0); break;
+                case 'cp':  registers[r] = Math.max(Math.floor(v), 0); break;
                 case 'add': registers[r] += v; break;
                 case 'sub': registers[r] = Math.max(registers[r] - v, 0); break;
                 case 'mul': registers[r] *= v; break;
